@@ -1,0 +1,90 @@
+<%- include('../../partials/header') %>
+
+<div class="page-header">
+  <div>
+    <nav class="breadcrumb">
+      <a href="/">Accueil</a><span class="breadcrumb-sep">›</span>
+      <span>Livres</span>
+    </nav>
+    <h1>
+      <% if (searchTerm) { %>
+        Résultats pour « <%= searchTerm %> »
+      <% } else { %>
+        Livres
+      <% } %>
+    </h1>
+  </div>
+  <div class="actions">
+    <% if (searchTerm) { %>
+      <a href="/livres" class="btn btn-outline btn-sm">✕ Effacer la recherche</a>
+    <% } %>
+    <a href="/livres/ajouter" class="btn btn-gold">+ Ajouter un livre</a>
+  </div>
+</div>
+
+<% if (livres.length === 0) { %>
+  <div class="empty-state">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+    </svg>
+    <% if (searchTerm) { %>
+      <h3>Aucun résultat pour « <%= searchTerm %> »</h3>
+      <p>Essayez un autre terme de recherche.</p>
+    <% } else { %>
+      <h3>Aucun livre pour le moment</h3>
+      <p>Commencez par ajouter votre premier livre.</p>
+      <a href="/livres/ajouter" class="btn btn-gold" style="margin-top:1rem">+ Ajouter un livre</a>
+    <% } %>
+  </div>
+<% } else { %>
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Titre</th>
+          <th>Auteur</th>
+          <th>Genre</th>
+          <th>Année</th>
+          <th>Disponible</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% livres.forEach(l => { %>
+        <tr>
+          <td><%= l.id %></td>
+          <td><strong><a href="/livres/<%= l.id %>"><%= l.titre %></a></strong></td>
+          <td><a href="/auteurs/<%= l.auteur_id %>"><%= l.auteur_prenom %> <%= l.auteur_nom %></a></td>
+          <td>
+            <% if(l.genre){ %>
+              <span class="badge badge-genre"><%= l.genre %></span>
+            <% } else { %>—<% } %>
+          </td>
+          <td><%= l.annee_publication || '—' %></td>
+          <td>
+            <span class="badge <%= l.disponible ? 'badge-disponible' : 'badge-indisponible' %>">
+              <%= l.disponible ? '✓ Oui' : '✗ Non' %>
+            </span>
+          </td>
+          <td>
+            <div class="actions">
+              <a href="/livres/<%= l.id %>/modifier" class="btn btn-primary btn-sm">Modifier</a>
+              <form action="/livres/<%= l.id %>/supprimer" method="POST"
+                    data-confirm="Supprimer « <%= l.titre %> » ?">
+                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:1rem;font-size:.85rem;color:var(--muted)">
+    <%= livres.length %> livre<%= livres.length > 1 ? 's' : '' %> affiché<%= livres.length > 1 ? 's' : '' %>
+  </p>
+<% } %>
+
+<%- include('../../partials/footer') %>

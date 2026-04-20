@@ -1,0 +1,69 @@
+<%- include('../../partials/header') %>
+
+<nav class="breadcrumb">
+  <a href="/">Accueil</a><span class="breadcrumb-sep">›</span>
+  <a href="/livres">Livres</a><span class="breadcrumb-sep">›</span>
+  <span><%= livre.titre %></span>
+</nav>
+
+<div class="page-header">
+  <h1><%= livre.titre %></h1>
+  <div class="actions">
+    <a href="/livres/<%= livre.id %>/modifier" class="btn btn-primary">✏️ Modifier</a>
+    <form action="/livres/<%= livre.id %>/supprimer" method="POST"
+          data-confirm="Supprimer « <%= livre.titre %> » ?">
+      <button type="submit" class="btn btn-danger">🗑 Supprimer</button>
+    </form>
+  </div>
+</div>
+
+<div class="detail-layout">
+  <div class="card">
+    <h3 class="section-title">Informations</h3>
+    <ul class="detail-meta">
+      <li>
+        <span class="meta-label">Auteur</span>
+        <a href="/auteurs/<%= livre.auteur_id %>"><%= livre.auteur_prenom %> <%= livre.auteur_nom %></a>
+      </li>
+      <li>
+        <span class="meta-label">Genre</span>
+        <% if (livre.genre) { %>
+          <span class="badge badge-genre"><%= livre.genre %></span>
+        <% } else { %>—<% } %>
+      </li>
+      <li>
+        <span class="meta-label">Année</span>
+        <%= livre.annee_publication || '—' %>
+      </li>
+      <li>
+        <span class="meta-label">ISBN</span>
+        <code style="font-size:.85rem"><%= livre.isbn || '—' %></code>
+      </li>
+      <li>
+        <span class="meta-label">Disponibilité</span>
+        <span class="badge <%= livre.disponible ? 'badge-disponible' : 'badge-indisponible' %>">
+          <%= livre.disponible ? '✓ Disponible' : '✗ Indisponible' %>
+        </span>
+      </li>
+      <li>
+        <span class="meta-label">Ajouté le</span>
+        <span class="format-date">
+          <%= livre.created_at ? livre.created_at.toISOString().slice(0,10) : '—' %>
+        </span>
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <div class="card">
+      <h3 class="section-title">Résumé</h3>
+      <% if (livre.resume) { %>
+        <p><%= livre.resume %></p>
+      <% } else { %>
+        <p style="color:var(--muted)"><em>Aucun résumé disponible.</em></p>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('../../partials/footer') %>

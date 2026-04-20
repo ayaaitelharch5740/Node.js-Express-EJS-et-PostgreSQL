@@ -1,0 +1,91 @@
+<%- include('../../partials/header') %>
+
+<nav class="breadcrumb">
+  <a href="/">Accueil</a><span class="breadcrumb-sep">›</span>
+  <a href="/auteurs">Auteurs</a><span class="breadcrumb-sep">›</span>
+  <span><%= auteur.prenom %> <%= auteur.nom %></span>
+</nav>
+
+<div class="page-header">
+  <h1><%= auteur.prenom %> <%= auteur.nom %></h1>
+  <div class="actions">
+    <a href="/auteurs/<%= auteur.id %>/modifier" class="btn btn-primary">✏️ Modifier</a>
+    <form action="/auteurs/<%= auteur.id %>/supprimer" method="POST"
+          data-confirm="Supprimer cet auteur et tous ses livres ?">
+      <button type="submit" class="btn btn-danger">🗑 Supprimer</button>
+    </form>
+  </div>
+</div>
+
+<div class="detail-layout">
+  <div class="card">
+    <h3 class="section-title">Informations</h3>
+    <ul class="detail-meta">
+      <li><span class="meta-label">Prénom</span> <%= auteur.prenom %></li>
+      <li><span class="meta-label">Nom</span> <%= auteur.nom %></li>
+      <li><span class="meta-label">Nationalité</span> <%= auteur.nationalite || '—' %></li>
+      <li>
+        <span class="meta-label">Naissance</span>
+        <span class="format-date">
+          <%= auteur.date_naissance ? auteur.date_naissance.toISOString().slice(0,10) : '—' %>
+        </span>
+      </li>
+      <li>
+        <span class="meta-label">Ajouté le</span>
+        <span class="format-date">
+          <%= auteur.created_at ? auteur.created_at.toISOString().slice(0,10) : '—' %>
+        </span>
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <% if (auteur.biographie) { %>
+    <div class="card" style="margin-bottom:1.5rem">
+      <h3 class="section-title">Biographie</h3>
+      <p><%= auteur.biographie %></p>
+    </div>
+    <% } %>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+        <h3 class="section-title" style="margin-bottom:0;border:none">
+          Livres (<%= livres.length %>)
+        </h3>
+        <a href="/livres/ajouter" class="btn btn-gold btn-sm">+ Ajouter</a>
+      </div>
+
+      <% if (livres.length === 0) { %>
+        <p style="color:var(--muted);font-size:.9rem">Aucun livre enregistré pour cet auteur.</p>
+      <% } else { %>
+        <div class="table-wrapper" style="box-shadow:none">
+          <table class="data-table">
+            <thead>
+              <tr><th>Titre</th><th>Genre</th><th>Année</th><th>Dispo</th></tr>
+            </thead>
+            <tbody>
+              <% livres.forEach(l => { %>
+              <tr>
+                <td><a href="/livres/<%= l.id %>"><%= l.titre %></a></td>
+                <td>
+                  <% if(l.genre){ %>
+                    <span class="badge badge-genre"><%= l.genre %></span>
+                  <% } else { %>—<% } %>
+                </td>
+                <td><%= l.annee_publication || '—' %></td>
+                <td>
+                  <span class="badge <%= l.disponible ? 'badge-disponible' : 'badge-indisponible' %>">
+                    <%= l.disponible ? '✓ Oui' : '✗ Non' %>
+                  </span>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('../../partials/footer') %>

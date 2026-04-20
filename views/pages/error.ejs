@@ -1,0 +1,10 @@
+<%- include('../partials/header') %>
+
+<div class="error-page">
+  <div class="error-code" style="font-size:5rem">⚠️</div>
+  <h2>Erreur serveur</h2>
+  <p><%= message || 'Une erreur inattendue s\'est produite.' %></p>
+  <a href="/" class="btn btn-primary" style="margin-top:1.5rem">← Retour à l'accueil</a>
+</div>
+
+<%- include('../partials/footer') %>

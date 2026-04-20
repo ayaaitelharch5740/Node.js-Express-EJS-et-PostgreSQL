@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+
+<div class="hero">
+  <h1 class="hero-title">Bienvenue dans la <em>Bibliothèque</em></h1>
+  <p class="hero-sub">Gérez votre collection de livres et d'auteurs simplement et élégamment.</p>
+  <hr class="hero-divider">
+</div>
+
+<% if (stats) { %>
+<div class="stats-row">
+  <div class="stat-card">
+    <span class="stat-number"><%= stats.auteurs %></span>
+    <span class="stat-label">Auteur<%= stats.auteurs > 1 ? 's' : '' %></span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number"><%= stats.livres %></span>
+    <span class="stat-label">Livre<%= stats.livres > 1 ? 's' : '' %></span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-number"><%= stats.disponibles %></span>
+    <span class="stat-label">Disponible<%= stats.disponibles > 1 ? 's' : '' %></span>
+  </div>
+</div>
+<% } %>
+
+<div class="grid">
+  <div class="card">
+    <h3>📖 Livres</h3>
+    <p>Consultez, ajoutez et gérez tous les livres de votre bibliothèque.</p>
+    <a href="/livres" class="btn btn-primary">Voir les livres</a>
+  </div>
+  <div class="card">
+    <h3>✍️ Auteurs</h3>
+    <p>Explorez la liste des auteurs et leurs biographies.</p>
+    <a href="/auteurs" class="btn btn-primary">Voir les auteurs</a>
+  </div>
+  <div class="card">
+    <h3>➕ Ajouter</h3>
+    <p>Enrichissez la collection en ajoutant de nouveaux livres ou auteurs.</p>
+    <div class="actions">
+      <a href="/livres/ajouter" class="btn btn-gold btn-sm">+ Livre</a>
+      <a href="/auteurs/ajouter" class="btn btn-outline btn-sm">+ Auteur</a>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,16 @@
+<nav class="site-nav">
+  <a href="/"         class="nav-link">Accueil</a>
+  <a href="/auteurs"  class="nav-link">Auteurs</a>
+  <a href="/livres"   class="nav-link">Livres</a>
+
+  <form class="search-form" action="/livres/recherche" method="GET">
+    <input
+      class="search-input"
+      type="search"
+      name="q"
+      placeholder="Rechercher un livre…"
+      value=""
+      aria-label="Rechercher">
+    <button class="btn btn-gold btn-sm" type="submit">🔍</button>
+  </form>
+</nav>

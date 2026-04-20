@@ -1,0 +1,66 @@
+<%- include('../../partials/header') %>
+
+<div class="page-header">
+  <div>
+    <nav class="breadcrumb">
+      <a href="/">Accueil</a><span class="breadcrumb-sep">›</span>
+      <span>Auteurs</span>
+    </nav>
+    <h1>Auteurs</h1>
+  </div>
+  <a href="/auteurs/ajouter" class="btn btn-gold">+ Ajouter un auteur</a>
+</div>
+
+<% if (auteurs.length === 0) { %>
+  <div class="empty-state">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+    <h3>Aucun auteur pour le moment</h3>
+    <p>Commencez par ajouter votre premier auteur.</p>
+    <a href="/auteurs/ajouter" class="btn btn-gold" style="margin-top:1rem">+ Ajouter un auteur</a>
+  </div>
+<% } else { %>
+  <div class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Nationalité</th>
+          <th>Naissance</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% auteurs.forEach(a => { %>
+        <tr>
+          <td><%= a.id %></td>
+          <td><strong><%= a.nom %></strong></td>
+          <td><%= a.prenom %></td>
+          <td><%= a.nationalite || '—' %></td>
+          <td class="format-date">
+            <%= a.date_naissance ? a.date_naissance.toISOString().slice(0,10) : '—' %>
+          </td>
+          <td>
+            <div class="actions">
+              <a href="/auteurs/<%= a.id %>" class="btn btn-outline btn-sm">Voir</a>
+              <a href="/auteurs/<%= a.id %>/modifier" class="btn btn-primary btn-sm">Modifier</a>
+              <form action="/auteurs/<%= a.id %>/supprimer" method="POST"
+                    data-confirm="Supprimer <%= a.prenom %> <%= a.nom %> ? Ses livres seront aussi supprimés.">
+                <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+
+<%- include('../../partials/footer') %>
